@@ -4,6 +4,8 @@
 using namespace std;    // class ke liye krna padta hai ye :-(
                         // Bahut ganda lagda h ye type krte hue ;(
 
+typedef vector<int> Array;
+
 int partition(vector<int>& v, int start, int end)
 {
     int pivot = v[end];
@@ -74,4 +76,44 @@ int binary_search(vector<int>& v, int number) {
     }
 
     return number == v[start] ? start : -1;
+}
+
+void merge(Array& arr, int l, int m, int r)
+{
+    Array L(arr.begin() + l, arr.begin() + m+1), 
+        R(arr.begin() + m + 1, arr.begin() + r+1);
+
+    r -= (m + 1); // set r to length of R, (ie. be the difference b/w start and end of second range now)
+    m -= l;
+
+    auto k = l;
+    int l2 = 0;
+    l = 0;
+    for (; l <= m && l2 <= r; k++)
+    {
+        if (L[l] < R[l2]) {
+            arr[k] = L[l++];
+        }
+        else {
+            arr[k] = R[l2++];
+        }
+    }
+
+    while (l <= m)
+        arr[k++] = L[l++];
+
+    while (l2 <= r)
+        arr[k++] = R[l2++];
+}
+
+void merge_sort(Array& vec, int l, int r) {
+    if (l >= r)    return;   // not l >= r, so that it doesn't ignore last element 
+
+    //auto mid = l + (r - l) / 2;
+    auto mid = (l + r) / 2;
+
+    merge_sort(vec, l, mid);
+    merge_sort(vec, mid+1, r);
+
+    merge(vec, l, mid, r);
 }

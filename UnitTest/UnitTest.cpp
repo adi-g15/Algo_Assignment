@@ -53,12 +53,20 @@ namespace AssignTest
 			}
 
 		}
-
 		TEST_METHOD(quick_sort_test)
 		{
 			std::vector<int> v{ get_random_sequence<int>(6) };
 
 			quick_sort(v, 0, v.size() - 1);
+
+			Assert::IsTrue(std::is_sorted(v.begin(), v.end()));
+		}
+
+		TEST_METHOD(merge_sort_test)
+		{
+			std::vector<int> v{ get_random_sequence<int>(6) };
+
+			merge_sort(v, 0, v.size() - 1);
 
 			Assert::IsTrue(std::is_sorted(v.begin(), v.end()));
 		}
